@@ -9,7 +9,7 @@ import { IProduct } from "./models";
 
 function App() {
   const {loading, error, products, addProducts} = useProducts()
-  const [modal, setModal] = useState(true)
+  const [modal, setModal] = useState(false)
 
   const createHandler = (product: IProduct) => {
     setModal(false)
@@ -17,14 +17,20 @@ function App() {
   }
   
   return (
-    <div className='container mx-auto max-w-2xl pt-5'>
+    <div className='container bg-lime-50 mx-auto max-w-2xl pt-5'>
       { loading && <Loader /> }
       { error && <ErrorMesage error={error}/> }
       { products.map(product => <Product product={product} key={product.id}/>) }
 
-      {modal && <Modal title="Create new product">
+      {modal && <Modal title="Create new product" onClose={() => setModal(false)}>
         <CreateProduct onCreate={createHandler}/>
       </Modal>}
+
+      <button 
+        className="fixed bottom-5 right-5 rounded-full bg-cyan-500 shadow-lg shadow-cyan-500/50 text-white text-2xl px-4 py-2"
+        onClick={() => setModal(true)}
+      > +
+      </button>
     </div>
     
   );
